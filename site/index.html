@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUM · la bulle caméra pour vos démos sur Windows</title>
+<meta name="description" content="LUM affiche votre webcam dans une bulle ronde, toujours au premier plan, et enregistre votre écran en MP4 avec votre voix. Un seul .exe de 91 Ko, gratuit, sans installation. Pour vos démos, tutos et présentations sur Windows.">
+<meta name="theme-color" content="#110E27">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LUM · Un visage vaut mille slides.">
+<meta property="og:description" content="Votre caméra dans une bulle, votre écran en vidéo MP4. Un seul .exe de 91 Ko pour Windows, sans installation.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Figtree:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<!-- Sprite : repère, logotype, portrait d'illustration (réutilisés partout) -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-ring" x1="4" y1="30" x2="28" y2="4" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6B57FF"/>
+      <stop offset=".58" stop-color="#FF8A5C"/>
+      <stop offset="1" stop-color="#FFC857"/>
+    </linearGradient>
+    <radialGradient id="g-wall" cx="80%" cy="14%" r="100%">
+      <stop offset="0" stop-color="#FFE0A0"/>
+      <stop offset=".22" stop-color="#F4A36F"/>
+      <stop offset=".55" stop-color="#6A55D6"/>
+      <stop offset="1" stop-color="#2A2366"/>
+    </radialGradient>
+  </defs>
+  <symbol id="lum-mark" viewBox="0 0 32 32">
+    <circle cx="15" cy="17" r="11" fill="#1C1840" stroke="url(#g-ring)" stroke-width="3.6"/>
+    <circle cx="22.8" cy="9.2" r="4.8" fill="#FFC857" opacity=".3"/>
+    <circle cx="22.8" cy="9.2" r="2.6" fill="#FFF4D6"/>
+  </symbol>
+  <symbol id="lum-word" viewBox="0 0 64 33">
+    <g fill="none" stroke="currentColor" stroke-width="5.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 4V23.5A5.5 5.5 0 0 0 9.5 29"/>
+      <path d="M18 12V23A6 6 0 0 0 30 23M30 12V29"/>
+      <path d="M38 12V29M38 17.5A5.5 5.5 0 0 1 49 17.5V29M49 17.5A5.5 5.5 0 0 1 60 17.5V29"/>
+    </g>
+  </symbol>
+  <symbol id="portrait" viewBox="0 0 200 200">
+    <rect width="200" height="200" fill="url(#g-wall)"/>
+    <g fill="#FFD68A">
+      <ellipse cx="105" cy="84" rx="31" ry="37"/>
+      <path d="M24 204C26 154 60 131 105 131S180 154 182 204Z"/>
+    </g>
+    <g fill="#1B1640">
+      <ellipse cx="100" cy="88" rx="31" ry="37"/>
+      <rect x="88" y="112" width="24" height="28" rx="9"/>
+      <path d="M20 206C22 157 57 135 100 135S178 157 180 206Z"/>
+    </g>
+  </symbol>
+  <symbol id="i-download" viewBox="0 0 24 24">
+    <path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="2.5" y="6.5" width="13" height="11" rx="3"/><path d="m15.5 10.5 5-3v9l-5-3"/></g>
+  </symbol>
+</svg>
+
+<a class="skip" href="#main">Aller au contenu</a>
+
+<header class="site-header" data-header>
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="LUM, retour en haut">
+      <svg class="brand-mark" aria-hidden="true"><use href="#lum-mark"/></svg>
+      <svg class="brand-word" aria-hidden="true"><use href="#lum-word"/></svg>
+    </a>
+    <nav class="nav" aria-label="Sections de la page">
+      <a href="#comment">Comment ça marche</a>
+      <a href="#exemples">Exemples</a>
+      <a href="#fonctionnalites">Fonctionnalités</a>
+      <a href="#faq">FAQ</a>
+      <a href="developpeurs.html">Développeurs</a>
+    </nav>
+    <a class="btn btn-sm btn-lumen header-cta" href="download/LUM.exe" download data-download>
+      <svg aria-hidden="true"><use href="#i-download"/></svg>Télécharger
+    </a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================================================ HÉROS -->
+<section class="hero" id="top" data-dark>
+  <div class="hero-glow" aria-hidden="true"></div>
+
+  <div class="wrap hero-copy">
+    <p class="chip-new"><span class="spark" aria-hidden="true"></span>LUM 1.0 &middot; pour Windows 10 et 11</p>
+    <h1 class="hero-title">
+      Un <span class="lit">visage</span>
+      <span class="h-bubble" aria-hidden="true"><svg><use href="#portrait"/></svg><video class="cam" muted playsinline></video></span>
+      vaut<br class="br-wide"> mille slides.
+    </h1>
+    <p class="hero-lede">LUM affiche votre caméra dans une bulle ronde, toujours au premier plan, et enregistre votre écran en vidéo avec votre voix. Un clic sur <span class="rec-inline"><span class="sr-only">le bouton rouge</span></span>&nbsp;: on voit votre écran, et on vous voit, vous.</p>
+    <div class="hero-cta">
+      <a class="btn btn-lumen" href="download/LUM.exe" download data-download>
+        <svg aria-hidden="true"><use href="#i-download"/></svg>Télécharger pour Windows
+      </a>
+      <a class="btn btn-ghost" href="#comment">Voir comment ça marche</a>
+    </div>
+    <p class="hero-meta">Gratuit <i></i> Un seul .exe de 91&nbsp;Ko <i></i> Sans installation ni compte</p>
+    <p class="platform-note" data-platform-note hidden>
+      LUM est une application Windows. Ouvrez cette page sur votre PC pour la télécharger,
+      <button type="button" class="link-btn" data-copy-link>ou copiez le lien</button>.
+    </p>
+  </div>
+
+  <div class="wrap hero-stage">
+    <div class="screen" data-stage>
+      <div class="display">
+        <div class="desk" data-desk>
+          <div class="window" aria-hidden="true">
+            <div class="win-bar">
+              <span class="win-title"><i class="win-app"></i>Tableau de bord · Ventes</span>
+              <span class="win-ctrl"><i class="min"></i><i class="max"></i><i class="cls"></i></span>
+            </div>
+            <div class="app app-dash">
+              <aside class="side"><i class="side-logo"></i><i class="side-item on"></i><i class="side-item"></i><i class="side-item"></i><i class="side-item"></i></aside>
+              <div class="dash">
+                <div class="dash-head">
+                  <div><b>Ventes · 3<sup>e</sup> trimestre</b><small>Mis à jour il y a 5&nbsp;min</small></div>
+                  <span class="ui-btn">Exporter</span>
+                </div>
+                <div class="kpis">
+                  <div class="kpi"><small>Chiffre d’affaires</small><b>482&nbsp;k€</b><em class="up">+12&nbsp;%</em></div>
+                  <div class="kpi"><small>Nouveaux clients</small><b>1&nbsp;284</b><em class="up">+8&nbsp;%</em></div>
+                  <div class="kpi"><small>Panier moyen</small><b>376&nbsp;€</b><em class="down">−2&nbsp;%</em></div>
+                </div>
+                <div class="dash-grid">
+                  <div class="card">
+                    <small>Évolution mensuelle</small>
+                    <svg class="chart" viewBox="0 0 300 120" preserveAspectRatio="none">
+                      <line x1="0" x2="300" y1="10" y2="10" vector-effect="non-scaling-stroke"/>
+                      <line x1="0" x2="300" y1="46" y2="46" vector-effect="non-scaling-stroke"/>
+                      <line x1="0" x2="300" y1="82" y2="82" vector-effect="non-scaling-stroke"/>
+                      <g class="bars">
+                        <rect x="4" y="74" width="22" height="46" rx="4"/><rect x="37" y="67" width="22" height="53" rx="4"/>
+                        <rect x="70" y="70" width="22" height="50" rx="4"/><rect x="103" y="62" width="22" height="58" rx="4"/>
+                        <rect x="136" y="56" width="22" height="64" rx="4"/><rect x="169" y="59" width="22" height="61" rx="4"/>
+                        <rect class="hot" x="202" y="49" width="22" height="71" rx="4"/><rect class="hot" x="235" y="42" width="22" height="78" rx="4"/>
+                        <rect class="hot" x="268" y="34" width="22" height="86" rx="4"/>
+                      </g>
+                    </svg>
+                  </div>
+                  <div class="card">
+                    <small>Top régions</small>
+                    <ul class="bars-h">
+                      <li><span>Occitanie</span><i style="--w:88%"></i></li>
+                      <li><span>Bretagne</span><i style="--w:71%"></i></li>
+                      <li><span>Grand Est</span><i style="--w:58%"></i></li>
+                      <li><span>Normandie</span><i style="--w:44%"></i></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- La bulle LUM : reproduit fidèlement l'application (tailles, miroir, fermer, aimantation) -->
+          <div class="bubble mirrored" data-bubble tabindex="0" role="group"
+               aria-label="Bulle LUM de démonstration. Glissez-la, ou utilisez les flèches du clavier pour la déplacer.">
+            <span class="bubble-hint" aria-hidden="true">Survolez-moi, puis cliquez sur ●</span>
+            <div class="bubble-face" data-face>
+              <svg class="portrait"><use href="#portrait"/></svg>
+              <video class="cam" muted playsinline></video>
+              <span class="bubble-count" data-count aria-hidden="true"></span>
+            </div>
+            <div class="pill" role="toolbar" aria-label="Barre de la bulle" data-pill>
+              <div class="pill-set" data-pill-idle>
+                <button type="button" class="danger" data-rec aria-label="Enregistrer l’écran"><svg viewBox="0 0 30 30"><circle class="rec-dot" cx="15" cy="15" r="7"/></svg></button>
+                <span class="sep" aria-hidden="true"></span>
+                <button type="button" data-size="0" aria-label="Petite bulle" aria-pressed="false"><svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="3.5"/></svg></button>
+                <button type="button" data-size="1" aria-label="Bulle moyenne" aria-pressed="true"><svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="5.5"/></svg></button>
+                <button type="button" data-size="2" aria-label="Grande bulle" aria-pressed="false"><svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="7.5"/></svg></button>
+                <span class="sep" aria-hidden="true"></span>
+                <button type="button" data-mirror aria-label="Effet miroir" aria-pressed="true">
+                  <svg viewBox="0 0 30 30"><path d="M11.2 10.2v9.6H6.7z" fill="currentColor"/><path d="M18.8 10.2v9.6h4.5z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M15 8.6v12.8" stroke="currentColor" stroke-width="1.3" stroke-dasharray="2 1.6"/></svg>
+                </button>
+                <button type="button" class="danger" data-close aria-label="Fermer LUM">
+                  <svg viewBox="0 0 30 30"><path d="m10 10 10 10m0-10L10 20" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+              <div class="pill-set" data-pill-rec hidden>
+                <button type="button" class="danger stop" data-stop aria-label="Arrêter et enregistrer la vidéo"><i class="stop-sq"></i><span class="timer" data-timer>0:00</span></button>
+                <span class="sep" aria-hidden="true"></span>
+                <button type="button" data-pause aria-label="Mettre en pause" aria-pressed="false">
+                  <svg class="i-pause" viewBox="0 0 30 30"><rect x="10.3" y="9" width="3.2" height="12" rx="1"/><rect x="16.5" y="9" width="3.2" height="12" rx="1"/></svg>
+                  <svg class="i-resume" viewBox="0 0 30 30"><circle class="rec-dot" cx="15" cy="15" r="6.5"/></svg>
+                </button>
+                <button type="button" class="danger" data-discard aria-label="Supprimer l’enregistrement">
+                  <svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 10.5h12M13 8.5h4M10.5 10.5l.7 11h7.6l.7-11M13.5 13.5v5.3M16.5 13.5v5.3"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="relaunch" data-relaunch hidden>
+            <svg aria-hidden="true"><use href="#lum-mark"/></svg>LUM est fermé. Relancer
+          </button>
+          <div class="toast" data-toast role="status" hidden>
+            <span class="toast-icon" aria-hidden="true"><svg><use href="#lum-mark"/></svg></span>
+            <span class="toast-text"><b data-toast-title>Vidéo enregistrée</b><small data-toast-path></small></span>
+          </div>
+        </div>
+        <div class="taskbar" aria-hidden="true"><span class="tb-icons"><i></i><i></i><i></i><i></i><i></i></span><span class="tb-clock">10:42</span></div>
+      </div>
+    </div>
+
+    <div class="stage-controls">
+      <button type="button" class="btn btn-sm btn-outline" data-cam>
+        <svg aria-hidden="true"><use href="#i-camera"/></svg><span data-cam-label>Essayer avec ma caméra</span>
+      </button>
+      <p class="cam-note" data-cam-note role="status">Votre image reste dans votre navigateur. Rien n’est envoyé, rien n’est enregistré.</p>
+    </div>
+  </div>
+
+  <div class="horizon" aria-hidden="true"></div>
+</section>
+
+<!-- ============================================================ COMPATIBILITÉ -->
+<section class="compat" aria-labelledby="compat-title">
+  <div class="wrap">
+    <p class="compat-title" id="compat-title">Et en direct, votre bulle apparaît aussi dans vos partages d’écran</p>
+    <ul class="compat-list">
+      <li>Microsoft Teams</li><li>Zoom</li><li>Google Meet</li><li>Webex</li><li>Slack</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================ COMMENT ÇA MARCHE -->
+<section class="section how" id="comment" aria-labelledby="how-title">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Comment ça marche</p>
+      <h2 id="how-title">Trois gestes. Zéro réglage.</h2>
+      <p class="lede">Pas de compte, pas de cloud, pas de montage&nbsp;: LUM enregistre directement une vidéo MP4 sur votre PC, prête à envoyer.</p>
+    </div>
+
+    <ol class="steps">
+      <li class="step reveal">
+        <div class="step-visual v-file" aria-hidden="true">
+          <div class="file">
+            <span class="file-icon"><svg><use href="#lum-mark"/></svg></span>
+            <span class="file-meta"><b>LUM.exe</b><small>Application &middot; 91&nbsp;Ko</small></span>
+            <span class="file-done">✓</span>
+          </div>
+          <div class="file-bar"><i></i></div>
+        </div>
+        <span class="step-num">1</span>
+        <h3>Téléchargez LUM.exe</h3>
+        <p>Un seul fichier de 91&nbsp;Ko. Pas d’installeur, pas de compte, pas de droits administrateur.</p>
+      </li>
+      <li class="step reveal">
+        <div class="step-visual v-desk" aria-hidden="true">
+          <div class="mini-desk">
+            <i class="mini-win"></i>
+            <span class="mini-bubble"><svg><use href="#portrait"/></svg></span>
+            <i class="mini-bar"></i>
+          </div>
+        </div>
+        <span class="step-num">2</span>
+        <h3>Double-cliquez</h3>
+        <p>Votre bulle apparaît en bas à droite. Glissez-la sur l’écran à montrer&nbsp;: elle s’aimante aux bords.</p>
+      </li>
+      <li class="step reveal">
+        <div class="step-visual v-rec" aria-hidden="true">
+          <div class="mock-pill"><span class="mp-stop"><i></i>0:12</span><span class="mp-sep"></span><span class="mp-btn"><svg viewBox="0 0 30 30"><rect x="10.3" y="9" width="3.2" height="12" rx="1"/><rect x="16.5" y="9" width="3.2" height="12" rx="1"/></svg></span><span class="mp-btn"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 10.5h12M13 8.5h4M10.5 10.5l.7 11h7.6l.7-11M13.5 13.5v5.3M16.5 13.5v5.3"/></svg></span></div>
+          <div class="mock-file"><b>LUM_2026-09-28_10-42-07.mp4</b><small>Vidéos › LUM</small></div>
+        </div>
+        <span class="step-num">3</span>
+        <h3>Cliquez sur <span class="rec-inline"><span class="sr-only">le bouton rouge</span></span></h3>
+        <p>3, 2, 1… vous enregistrez, avec votre voix. <b>■</b> pour arrêter&nbsp;: la vidéo MP4 vous attend dans <code>C:\Users\[USER]\Videos\LUM</code>.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================================ EXEMPLES -->
+<section class="section examples" id="exemples" aria-labelledby="ex-title">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Exemples</p>
+      <h2 id="ex-title">Partout où une explication mérite un visage.</h2>
+      <p class="lede">Un écran seul montre <em>quoi</em>. Votre visage dit <em>comment</em>&nbsp;: le ton, l’hésitation, le sourire, ce qui compte vraiment.</p>
+    </div>
+
+    <div class="ex-shell reveal">
+      <div class="tabs" role="tablist" aria-label="Cas d’usage">
+        <button type="button" role="tab" id="tab-forma" aria-controls="ex-forma" aria-selected="true">Formation</button>
+        <button type="button" role="tab" id="tab-code" aria-controls="ex-code" aria-selected="false" tabindex="-1">Revue de code</button>
+        <button type="button" role="tab" id="tab-design" aria-controls="ex-design" aria-selected="false" tabindex="-1">Feedback design</button>
+        <button type="button" role="tab" id="tab-visio" aria-controls="ex-visio" aria-selected="false" tabindex="-1">Réunions en visio</button>
+      </div>
+
+      <!-- Formation -->
+      <div class="ex-panel" role="tabpanel" id="ex-forma" aria-labelledby="tab-forma" tabindex="0">
+        <div class="ex-copy">
+          <h3>Formez sans perdre personne.</h3>
+          <p>Tutoriels, onboarding, procédures internes&nbsp;: un visage à l’écran rend une explication plus facile à suivre, et à retenir. Vos collègues regardent la vidéo quand ils en ont besoin, et vous ne répétez plus la même chose dix fois.</p>
+          <p class="combo"><span>Astuce</span>Petite bulle pour laisser toute la place au contenu, puis <span class="rec-inline"><span class="sr-only">le bouton rouge</span></span>. La vidéo MP4 se partage sur l’intranet ou par e-mail.</p>
+        </div>
+        <div class="screen screen-ex" aria-hidden="true">
+          <div class="display"><div class="desk">
+            <div class="window">
+              <div class="win-bar"><span class="win-title"><i class="win-app a2"></i>Notes de frais · Formation.pptx</span><span class="win-ctrl"><i class="min"></i><i class="max"></i><i class="cls"></i></span></div>
+              <div class="app app-slide">
+                <div class="slide-copy">
+                  <small class="slide-kicker">Module 2 · Notes de frais</small>
+                  <b class="slide-title">Déclarer une dépense en trois étapes</b>
+                  <ol class="slide-steps">
+                    <li><i>1</i>Photographiez le justificatif</li>
+                    <li class="on"><i>2</i>Choisissez la catégorie</li>
+                    <li><i>3</i>Envoyez pour validation</li>
+                  </ol>
+                </div>
+                <div class="slide-shot">
+                  <small>Catégorie</small>
+                  <span class="select">Choisir…</span>
+                  <ul class="menu"><li>Transport</li><li class="on">Repas</li><li>Hébergement</li><li>Fournitures</li></ul>
+                </div>
+                <small class="slide-foot">04 / 12</small>
+              </div>
+            </div>
+            <div class="bubble bubble-static mirrored"><div class="bubble-face"><svg class="portrait"><use href="#portrait"/></svg><video class="cam" muted playsinline></video></div></div>
+          </div><div class="taskbar"><span class="tb-icons"><i></i><i></i><i></i><i></i><i></i></span><span class="tb-clock">14:05</span></div></div>
+        </div>
+      </div>
+
+      <!-- Revue de code -->
+      <div class="ex-panel" role="tabpanel" id="ex-code" aria-labelledby="tab-code" tabindex="0" hidden>
+        <div class="ex-copy">
+          <h3>Expliquez le pourquoi, pas seulement le quoi.</h3>
+          <p>Une pull request délicate, un bug subtil&nbsp;: deux minutes à voix haute, en montrant les lignes qui comptent, valent mieux qu’un long fil de commentaires. Votre relecteur comprend votre intention, pas seulement votre diff.</p>
+          <p class="combo"><span>Astuce</span>Glissez le fichier MP4 directement dans la pull request ou le ticket.</p>
+        </div>
+        <div class="screen screen-ex" aria-hidden="true">
+          <div class="display"><div class="desk">
+            <div class="window dark">
+              <div class="win-bar"><span class="win-title"><i class="win-app a3"></i>PR #214 · Arrondi des totaux TTC</span><span class="win-ctrl"><i class="min"></i><i class="max"></i><i class="cls"></i></span></div>
+              <div class="app app-code">
+                <div class="code-tabs"><span class="on">invoice.ts</span><span>tax.ts</span><span>invoice.test.ts</span></div>
+<pre class="code"><span class="ln">1</span><span class="k">import</span> { Line } <span class="k">from</span> <span class="s">"./types"</span>;
+<span class="ln">2</span>
+<span class="ln">3</span><span class="k">export function</span> <span class="f">totalTTC</span>(lines: Line[], rate = <span class="n">0.2</span>) {
+<span class="ln">4</span>  <span class="k">const</span> ht = lines.<span class="f">reduce</span>((s, l) =&gt; s + l.qty * l.price, <span class="n">0</span>);
+<span class="del"><span class="ln">5</span>- <span class="k">return</span> ht * (<span class="n">1</span> + rate);</span>
+<span class="add"><span class="ln">5</span>+ <span class="c">// Arrondi au centime : évite l’écart de 0,01 €</span></span>
+<span class="add"><span class="ln">6</span>+ <span class="k">return</span> Math.<span class="f">round</span>(ht * (<span class="n">1</span> + rate) * <span class="n">100</span>) / <span class="n">100</span>;</span>
+<span class="ln">7</span>}</pre>
+                <div class="code-status"><span>✓ 42 tests réussis</span><span>TypeScript</span></div>
+              </div>
+            </div>
+            <div class="bubble bubble-static mirrored"><div class="bubble-face"><svg class="portrait"><use href="#portrait"/></svg><video class="cam" muted playsinline></video></div></div>
+          </div><div class="taskbar"><span class="tb-icons"><i></i><i></i><i></i><i></i><i></i></span><span class="tb-clock">16:20</span></div></div>
+        </div>
+      </div>
+
+      <!-- Feedback design -->
+      <div class="ex-panel" role="tabpanel" id="ex-design" aria-labelledby="tab-design" tabindex="0" hidden>
+        <div class="ex-copy">
+          <h3>Un avis de vive voix sur une maquette.</h3>
+          <p>Pointez, expliquez, nuancez. Le ton passe bien mieux que dans quarante commentaires écrits, et le designer voit tout de suite ce qui vous a arrêté.</p>
+          <p class="combo"><span>Astuce</span>❚❚ met la vidéo en pause le temps d’ouvrir la maquette suivante&nbsp;; <span class="rec-inline"><span class="sr-only">le bouton rouge</span></span> reprend.</p>
+        </div>
+        <div class="screen screen-ex" aria-hidden="true">
+          <div class="display"><div class="desk">
+            <div class="window">
+              <div class="win-bar"><span class="win-title"><i class="win-app a4"></i>Application mobile · Paiement v3</span><span class="win-ctrl"><i class="min"></i><i class="max"></i><i class="cls"></i></span></div>
+              <div class="app app-canvas">
+                <div class="phone">
+                  <i class="ph-bar"></i><i class="ph-img"></i><i class="ph-line w80"></i><i class="ph-line w60"></i><i class="ph-line w70"></i><i class="ph-btn"></i>
+                </div>
+                <div class="phone">
+                  <i class="ph-bar"></i><i class="ph-line w50"></i><i class="ph-card"></i><i class="ph-card"></i><i class="ph-btn alt"></i>
+                </div>
+                <span class="pin p1">1</span>
+                <span class="pin p2">2</span>
+                <div class="note"><b>Camille</b>Le bouton passe sous la ligne de flottaison sur petit écran&nbsp;?</div>
+              </div>
+            </div>
+            <div class="bubble bubble-static mirrored"><div class="bubble-face"><svg class="portrait"><use href="#portrait"/></svg><video class="cam" muted playsinline></video></div></div>
+          </div><div class="taskbar"><span class="tb-icons"><i></i><i></i><i></i><i></i><i></i></span><span class="tb-clock">11:12</span></div></div>
+        </div>
+      </div>
+
+      <!-- Visio -->
+      <div class="ex-panel" role="tabpanel" id="ex-visio" aria-labelledby="tab-visio" tabindex="0" hidden>
+        <div class="ex-copy">
+          <h3>Restez présent pendant le partage d’écran.</h3>
+          <p>Dès que vous partagez votre écran, votre vignette file dans un coin, loin du contenu. Avec LUM, votre visage reste à côté de vos slides, là où tout le monde regarde.</p>
+          <p class="combo"><span>Astuce</span>Partagez l’écran entier et coupez la caméra de la visio. Pour que la bulle reste visible, ne lancez pas d’enregistrement LUM pendant le partage.</p>
+        </div>
+        <div class="screen screen-ex" aria-hidden="true">
+          <div class="display"><div class="desk">
+            <div class="window">
+              <div class="share-banner"><i></i>Vous partagez votre écran<span>Arrêter le partage</span></div>
+              <div class="app app-meet">
+                <small class="meet-kicker">Comité produit · 3 octobre</small>
+                <b class="meet-title">Feuille de route T4</b>
+                <div class="road">
+                  <div><small>Octobre</small><span class="tag t1">Export PDF</span><span class="tag">Mode hors ligne</span></div>
+                  <div><small>Novembre</small><span class="tag t2">Nouveau tableau de bord</span></div>
+                  <div><small>Décembre</small><span class="tag">Intégration Slack</span><span class="tag t3">Accessibilité</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="bubble bubble-static mirrored"><div class="bubble-face"><svg class="portrait"><use href="#portrait"/></svg><video class="cam" muted playsinline></video></div></div>
+          </div><div class="taskbar"><span class="tb-icons"><i></i><i></i><i></i><i></i><i></i></span><span class="tb-clock">09:31</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FONCTIONNALITÉS -->
+<section class="section features" id="fonctionnalites" aria-labelledby="feat-title">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Fonctionnalités</p>
+      <h2 id="feat-title">Tout ce qu’il faut. Rien de trop.</h2>
+    </div>
+
+    <div class="feature-row reveal">
+      <div class="feature-copy">
+        <h3>Enregistrez en un clic.</h3>
+        <ul class="ticks">
+          <li><b><span class="rec-inline"><span class="sr-only">le bouton rouge</span></span> puis 3, 2, 1</b>&nbsp;: le compte à rebours vous laisse le temps de vous installer. ■ l’annule.</li>
+          <li><b>❚❚ pour une pause, <span class="rec-inline"><span class="sr-only">le bouton rouge</span></span> pour reprendre</b>&nbsp;: le chrono clignote tant que vous êtes en pause.</li>
+          <li><b>■ pour terminer</b>&nbsp;: la vidéo MP4 s’ouvre dans l’Explorateur. <b>🗑</b> pour la jeter, après confirmation.</li>
+          <li><b>Votre voix</b>, avec le micro par défaut de Windows ou celui de votre choix.</li>
+          <li><b>Les boutons restent hors champ</b>&nbsp;: votre bulle est dans la vidéo, pas sa barre (Windows&nbsp;10 version 2004 ou plus récent).</li>
+        </ul>
+      </div>
+      <div class="rec-demo" aria-hidden="true">
+        <div class="rd-screen">
+          <i class="md-line l1"></i><i class="md-line l2"></i><i class="md-line l3"></i><i class="md-block"></i>
+          <div class="rd-bubble"><svg><use href="#portrait"/></svg></div>
+          <div class="mock-pill rd-pill"><span class="mp-stop"><i></i><span class="rd-timer">0:12</span></span><span class="mp-sep"></span><span class="mp-btn"><svg viewBox="0 0 30 30"><rect x="10.3" y="9" width="3.2" height="12" rx="1"/><rect x="16.5" y="9" width="3.2" height="12" rx="1"/></svg></span><span class="mp-btn"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 10.5h12M13 8.5h4M10.5 10.5l.7 11h7.6l.7-11M13.5 13.5v5.3M16.5 13.5v5.3"/></svg></span></div>
+        </div>
+        <div class="rd-file">
+          <span class="rd-thumb"><svg viewBox="0 0 24 24"><path d="M9 7.5v9l7.5-4.5z" fill="currentColor"/></svg></span>
+          <span><b>LUM_2026-09-28_10-42-07.mp4</b><small>C:\Users\[USER]\Videos\LUM</small></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-row flip reveal">
+      <div class="feature-copy">
+        <h3>Toujours là, jamais dans le passage.</h3>
+        <ul class="ticks">
+          <li><b>Toujours au premier plan</b>, même quand vous lancez un diaporama.</li>
+          <li><b>Aimantée aux bords</b> et impossible à perdre&nbsp;: elle ne sort jamais de l’écran.</li>
+          <li><b>Une barre discrète</b>, qui n’apparaît qu’au survol de la bulle.</li>
+          <li><b>Les clics passent</b> autour de la bulle&nbsp;: vous travaillez normalement dessous.</li>
+        </ul>
+      </div>
+      <div class="magnet-demo" aria-hidden="true">
+        <div class="md-screen">
+          <i class="md-line l1"></i><i class="md-line l2"></i><i class="md-line l3"></i><i class="md-block"></i>
+          <i class="md-edge"></i>
+          <div class="md-bubble"><svg><use href="#portrait"/></svg></div>
+          <svg class="md-cursor" viewBox="0 0 24 24"><path d="M5 3l14 8.5-6.2 1.4L10 19z" fill="#16132E" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-row reveal">
+      <div class="feature-copy">
+        <h3>Un exe. 91&nbsp;Ko. C’est tout.</h3>
+        <p>Pas d’installeur, pas de mise à jour qui s’impose, pas de compte à créer. LUM tient dans un seul fichier que vous pouvez copier sur une clé USB, envoyer à un collègue ou poser sur votre bureau. Il fonctionne même sur un poste d’entreprise sans droits administrateur.</p>
+        <p>Et il ne se connecte jamais à internet&nbsp;: vos vidéos restent sur votre PC, dans <code>C:\Users\[USER]\Videos\LUM</code>.</p>
+      </div>
+      <div class="spec" aria-label="Fiche technique de LUM">
+        <div class="spec-head">
+          <svg aria-hidden="true"><use href="#lum-mark"/></svg>
+          <span><b>LUM 1.0</b><small>Fiche technique</small></span>
+          <span class="spec-big">91<small>&nbsp;Ko</small></span>
+        </div>
+        <dl class="spec-list">
+          <div><dt>Source lumineuse</dt><dd>votre webcam</dd></div>
+          <div><dt>Fichiers</dt><dd>1 (LUM.exe)</dd></div>
+          <div><dt>Vidéos</dt><dd>MP4 (H.264 + AAC)</dd></div>
+          <div><dt>Dossier</dt><dd>Videos\LUM</dd></div>
+          <div><dt>Installation</dt><dd>aucune</dd></div>
+          <div><dt>Droits administrateur</dt><dd>non requis</dd></div>
+          <div><dt>Compte</dt><dd>aucun</dd></div>
+          <div><dt>Connexion internet</dt><dd>jamais</dd></div>
+          <div><dt>Système</dt><dd>Windows 10 et 11</dd></div>
+          <div><dt>Prix</dt><dd>gratuit</dd></div>
+        </dl>
+      </div>
+    </div>
+
+    <ul class="feature-grid">
+      <li class="reveal">
+        <span class="f-icon"><svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="4.5" cy="15.5" r="2"/><circle cx="10.5" cy="14" r="3.5"/><circle cx="18" cy="12.5" r="5"/></g></svg></span>
+        <h3>Trois tailles</h3>
+        <p>Petite pendant une démo chargée, grande pour une introduction. Un clic dans la barre.</p>
+      </li>
+      <li class="reveal">
+        <span class="f-icon"><svg viewBox="0 0 30 30"><path d="M11.2 9.5v11H6z" fill="currentColor"/><path d="M18.8 9.5v11H24z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M15 7.5v15" stroke="currentColor" stroke-width="1.7" stroke-dasharray="2.2 1.8"/></svg></span>
+        <h3>Effet miroir</h3>
+        <p>Activé par défaut, pour vous voir comme dans une glace. Un clic pour l’inverser.</p>
+      </li>
+      <li class="reveal">
+        <span class="f-icon"><svg><use href="#i-camera"/></svg></span>
+        <h3>Choix de la caméra</h3>
+        <p>Webcam intégrée ou externe&nbsp;: clic droit sur la bulle, puis Caméra.</p>
+      </li>
+      <li class="reveal">
+        <span class="f-icon"><svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="3" width="7" height="11.5" rx="3.5"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></g></svg></span>
+        <h3>Choix du micro</h3>
+        <p>Clic droit sur la bulle, puis Micro&nbsp;: celui de Windows, un autre, ou «&nbsp;Pas de son&nbsp;».</p>
+      </li>
+      <li class="reveal">
+        <span class="f-icon"><svg viewBox="0 0 24 24"><path d="M7 3.5h10v17l-5-3.6-5 3.6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+        <h3>Elle se souvient</h3>
+        <p>Taille, position, miroir et caméra&nbsp;: tout est retrouvé au lancement suivant.</p>
+      </li>
+      <li class="reveal">
+        <span class="f-icon"><svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></g></svg></span>
+        <h3>100&nbsp;% local</h3>
+        <p>Aucun compte, aucun serveur, aucun envoi. Vos vidéos ne quittent pas votre PC.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================ MULTI-ÉCRAN -->
+<section class="multi" id="multi-ecran" aria-labelledby="multi-title" data-dark>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow on-dark">Plusieurs écrans</p>
+      <h2 id="multi-title">LUM enregistre l’écran où se trouve la bulle.</h2>
+      <p class="lede">Vos notes sur un écran, votre démo sur l’autre&nbsp;: glissez la bulle sur l’écran à montrer, cliquez sur <span class="rec-inline"><span class="sr-only">le bouton rouge</span></span>, et seul cet écran est filmé. Pendant l’enregistrement, la bulle ne peut plus le quitter&nbsp;: impossible de filmer le mauvais par erreur.</p>
+    </div>
+
+    <div class="ms-demo reveal">
+      <div class="ms-stage" data-ms>
+        <div class="monitor" data-monitor>
+          <div class="mon-screen">
+            <div class="mon-app mon-slide" aria-hidden="true">
+              <small>Démo client · Nouveau parcours</small>
+              <b>Commander en 3 clics</b>
+              <span class="ms-cards"><i></i><i class="on"></i><i></i></span>
+            </div>
+            <span class="mon-tag" aria-hidden="true"></span>
+          </div>
+          <i class="mon-stand" aria-hidden="true"></i>
+          <span class="mon-label">Écran 1</span>
+        </div>
+        <div class="monitor" data-monitor>
+          <div class="mon-screen">
+            <div class="mon-app mon-notes" aria-hidden="true">
+              <small>Notes de démo · privé</small>
+              <i class="w90"></i><i class="w70"></i><i class="w80"></i><i class="w50"></i><i class="w75"></i><i class="w60"></i>
+            </div>
+            <span class="mon-tag" aria-hidden="true"></span>
+          </div>
+          <i class="mon-stand" aria-hidden="true"></i>
+          <span class="mon-label">Écran 2</span>
+        </div>
+        <div class="bubble ms-bubble mirrored" data-ms-bubble tabindex="0" role="group"
+             aria-label="Bulle LUM de démonstration sur deux écrans. Glissez-la, ou utilisez les flèches gauche et droite.">
+          <div class="bubble-face">
+            <svg class="portrait"><use href="#portrait"/></svg>
+            <video class="cam" muted playsinline></video>
+            <span class="bubble-count" data-ms-count aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ms-controls">
+        <button type="button" class="btn btn-lumen btn-sm" data-ms-rec><span class="rec-inline"></span><span data-ms-rec-label>Enregistrer cet écran</span></button>
+        <p class="ms-status" data-ms-status role="status">La bulle est sur l’écran 1&nbsp;: c’est lui qui sera enregistré.</p>
+      </div>
+    </div>
+
+    <dl class="ms-facts reveal">
+      <div><dt>Enregistré dans</dt><dd><code>C:\Users\[USER]\Videos\LUM</code><small>LUM_AAAA-MM-JJ_HH-MM-SS.mp4</small></dd></div>
+      <div><dt>Format</dt><dd>MP4 (H.264 + AAC)<small>jusqu’à la 4K, curseur de la souris compris</small></dd></div>
+      <div><dt>Son</dt><dd>Votre micro<small>celui de Windows, ou au choix par clic droit</small></dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============================================================ FAQ -->
+<section class="section faq" id="faq" aria-labelledby="faq-title">
+  <div class="wrap faq-grid">
+    <div class="section-head left reveal">
+      <p class="eyebrow">Questions fréquentes</p>
+      <h2 id="faq-title">Bon à savoir.</h2>
+      <p class="lede">Tout ce qu’il faut savoir avant, pendant et après votre première bulle.</p>
+    </div>
+    <div class="faq-list">
+      <details>
+        <summary>Où sont enregistrées mes vidéos&nbsp;?</summary>
+        <div class="faq-a">
+          <p>Dans <code>C:\Users\[USER]\Videos\LUM</code>, le dossier Vidéos de votre session Windows. Chaque vidéo est un fichier MP4 (H.264 + AAC) nommé d’après sa date, par exemple <code>LUM_2026-09-28_10-42-07.mp4</code>.</p>
+          <p>Quand vous cliquez sur ■, l’Explorateur s’ouvre directement sur la vidéo. Pour y revenir plus tard&nbsp;: clic droit sur la bulle, puis <b>Ouvrir le dossier des vidéos</b>.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Et avec plusieurs écrans&nbsp;?</summary>
+        <div class="faq-a">
+          <p>LUM enregistre uniquement l’écran sur lequel se trouve la bulle au moment où vous cliquez sur <span class="rec-inline"><span class="sr-only">le bouton rouge</span></span>. Pendant l’enregistrement, la bulle reste sur cet écran. Les autres écrans ne sont jamais filmés&nbsp;: vous pouvez y garder vos notes.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Le son est-il enregistré&nbsp;?</summary>
+        <div class="faq-a">
+          <p>Oui, celui de votre micro&nbsp;: le micro par défaut de Windows, ou celui que vous choisissez par clic droit sur la bulle, puis <b>Micro</b>. Choisissez <b>Pas de son</b> pour une vidéo muette. Si aucun micro n’est disponible, la vidéo est enregistrée sans son et LUM vous prévient.</p>
+          <p>Le son de l’ordinateur (une vidéo que vous lisez, les notifications) n’est pas enregistré.</p>
+        </div>
+      </details>
+      <details>
+        <summary>La barre de boutons apparaît-elle dans la vidéo&nbsp;?</summary>
+        <div class="faq-a">
+          <p>Non&nbsp;: votre bulle est dans la vidéo, mais pas sa barre, sur Windows&nbsp;10 version 2004 ou plus récent et sur Windows&nbsp;11. Sur un Windows plus ancien, la barre n’apparaît qu’au survol, et sera alors visible dans la vidéo.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Faut-il installer quelque chose&nbsp;?</summary>
+        <div class="faq-a">
+          <p>Non. LUM.exe est un fichier unique de 91&nbsp;Ko qui se lance d’un double-clic. Il s’appuie sur .NET Framework&nbsp;4.8, déjà présent dans Windows&nbsp;10 et&nbsp;11. Aucun droit administrateur n’est nécessaire.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Windows affiche «&nbsp;Windows a protégé votre ordinateur&nbsp;». Que faire&nbsp;?</summary>
+        <div class="faq-a">
+          <p>C’est le filtre SmartScreen&nbsp;: il se méfie des applications récentes et peu téléchargées. Cliquez sur <b>Informations complémentaires</b>, puis sur <b>Exécuter quand même</b>. Votre navigateur peut aussi demander de confirmer le téléchargement&nbsp;: choisissez <b>Conserver</b>.</p>
+          <p>Sur un poste d’entreprise verrouillé, demandez à votre service informatique d’autoriser LUM.exe.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Ma caméra ne s’affiche pas dans la bulle.</summary>
+        <div class="faq-a">
+          <ul>
+            <li>Dans <b>Paramètres Windows › Confidentialité et sécurité › Caméra</b>, autorisez les applications de bureau à accéder à la caméra.</li>
+            <li>La caméra est peut-être déjà utilisée par Teams, Zoom ou une autre application&nbsp;: coupez-la là-bas.</li>
+            <li>Sur une édition «&nbsp;N&nbsp;» de Windows, installez le Media Feature Pack.</li>
+          </ul>
+          <p>Vous avez plusieurs caméras&nbsp;? Clic droit sur la bulle, puis <b>Caméra</b>.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Comment l’utiliser pendant une réunion Teams, Zoom ou Meet&nbsp;?</summary>
+        <div class="faq-a">
+          <p>Partagez votre <b>écran entier</b>, pas une seule fenêtre&nbsp;: la bulle fait alors partie de ce que les autres voient. Coupez la caméra dans l’application de visio&nbsp;: vous n’apparaîtrez pas en double, et certaines webcams ne se partagent pas entre deux applications.</p>
+          <p>Attention&nbsp;: pendant un enregistrement LUM, la bulle devient invisible pour les partages d’écran. Pour vous montrer en réunion, partagez sans enregistrer avec LUM.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Mes images sont-elles envoyées quelque part&nbsp;?</summary>
+        <div class="faq-a">
+          <p>Non. LUM ne se connecte jamais à internet et ne demande aucun compte. Vos vidéos sont enregistrées uniquement sur votre PC, dans <code>C:\Users\[USER]\Videos\LUM</code>&nbsp;: c’est vous qui décidez de les partager. Vos réglages (taille, position, miroir, caméra, micro) sont gardés dans <code>%APPDATA%\LUM\settings.ini</code>.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Comment fermer ou désinstaller LUM&nbsp;?</summary>
+        <div class="faq-a">
+          <p>Survolez la bulle et cliquez sur ✕, ou faites un clic droit puis <b>Fermer LUM</b>. Si un enregistrement est en cours, LUM termine et sauvegarde d’abord la vidéo.</p>
+          <p>Pour le désinstaller, supprimez simplement LUM.exe, et si vous voulez effacer vos réglages, le dossier <code>%APPDATA%\LUM</code>. Vos vidéos restent dans <code>Videos\LUM</code>.</p>
+        </div>
+      </details>
+      <details>
+        <summary>LUM est-il vraiment gratuit&nbsp;?</summary>
+        <div class="faq-a">
+          <p>Oui. LUM est un logiciel libre, publié sous licence MIT. Son code source est public sur <a href="https://github.com/ilsnpn/LUM">GitHub</a>&nbsp;: tout le monde peut le lire, le compiler et l’améliorer. Voir la <a href="developpeurs.html">page Développeurs</a>.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Et sur Mac ou Linux&nbsp;?</summary>
+        <div class="faq-a">
+          <p>LUM est pour l’instant réservé à Windows&nbsp;10 et&nbsp;11.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ APPEL FINAL -->
+<section class="final" aria-labelledby="final-title" data-dark>
+  <div class="sunrise" aria-hidden="true"></div>
+  <div class="wrap final-inner reveal">
+    <h2 id="final-title">À vous la lumière.</h2>
+    <p>Téléchargez LUM, double-cliquez, cliquez sur <span class="rec-inline"><span class="sr-only">le bouton rouge</span></span>. Votre public vous voit enfin.</p>
+    <a class="btn btn-lumen btn-lg" href="download/LUM.exe" download data-download>
+      <svg aria-hidden="true"><use href="#i-download"/></svg>Télécharger LUM pour Windows
+    </a>
+    <p class="hero-meta">Version 1.0 <i></i> Windows 10 et 11 <i></i> 91&nbsp;Ko <i></i> Gratuit</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer" data-dark>
+  <div class="wrap footer-inner">
+    <a class="brand" href="#top" aria-label="LUM, retour en haut">
+      <svg class="brand-mark" aria-hidden="true"><use href="#lum-mark"/></svg>
+      <svg class="brand-word" aria-hidden="true"><use href="#lum-word"/></svg>
+    </a>
+    <p class="footer-tag">LUM, comme <i>lumen</i>&nbsp;: la bulle caméra qui vous met en lumière.</p>
+    <nav class="footer-nav" aria-label="Pied de page">
+      <a href="#comment">Comment ça marche</a>
+      <a href="#exemples">Exemples</a>
+      <a href="#fonctionnalites">Fonctionnalités</a>
+      <a href="#faq">FAQ</a>
+      <a href="developpeurs.html">Développeurs</a>
+      <a href="https://github.com/ilsnpn/LUM">GitHub</a>
+    </nav>
+    <p class="footer-legal">Logiciel libre et gratuit, sous <a href="https://github.com/ilsnpn/LUM/blob/main/LICENSE">licence MIT</a>. Code source sur <a href="https://github.com/ilsnpn/LUM">GitHub</a>.</p>
+  </div>
+</footer>
+
+<!-- Après le téléchargement -->
+<dialog class="dl-dialog" data-dialog aria-labelledby="dl-title">
+  <div class="dl-inner">
+    <span class="dl-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <h2 id="dl-title">Téléchargement lancé.</h2>
+    <p>Plus que trois gestes&nbsp;:</p>
+    <ol class="dl-steps">
+      <li>Ouvrez <b>LUM.exe</b> depuis vos téléchargements (<kbd>Ctrl</kbd>&nbsp;+&nbsp;<kbd>J</kbd> dans le navigateur).</li>
+      <li>Si Windows affiche «&nbsp;Windows a protégé votre ordinateur&nbsp;», cliquez sur <b>Informations complémentaires</b>, puis <b>Exécuter quand même</b>.</li>
+      <li>Votre bulle apparaît en bas à droite. Survolez-la et cliquez sur <span class="rec-inline"><span class="sr-only">le bouton rouge</span></span> pour enregistrer&nbsp;: vos vidéos iront dans <code>C:\Users\[USER]\Videos\LUM</code>.</li>
+    </ol>
+    <div class="dl-actions">
+      <button type="button" class="btn btn-sm btn-violet" data-dialog-close>C’est parti</button>
+      <a class="dl-retry" href="download/LUM.exe" download>Le téléchargement n’a pas démarré&nbsp;?</a>
+    </div>
+  </div>
+</dialog>
+
+<script src="main.js"></script>
+</body>
+</html>

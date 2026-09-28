@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUM · Développeurs</title>
+<meta name="description" content="LUM est un logiciel libre sous licence MIT. Code source sur GitHub, compilation sans rien installer, contributions bienvenues.">
+<meta name="theme-color" content="#110E27">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Figtree:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-ring" x1="4" y1="30" x2="28" y2="4" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6B57FF"/>
+      <stop offset=".58" stop-color="#FF8A5C"/>
+      <stop offset="1" stop-color="#FFC857"/>
+    </linearGradient>
+  </defs>
+  <symbol id="lum-mark" viewBox="0 0 32 32">
+    <circle cx="15" cy="17" r="11" fill="#1C1840" stroke="url(#g-ring)" stroke-width="3.6"/>
+    <circle cx="22.8" cy="9.2" r="4.8" fill="#FFC857" opacity=".3"/>
+    <circle cx="22.8" cy="9.2" r="2.6" fill="#FFF4D6"/>
+  </symbol>
+  <symbol id="lum-word" viewBox="0 0 64 33">
+    <g fill="none" stroke="currentColor" stroke-width="5.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 4V23.5A5.5 5.5 0 0 0 9.5 29"/>
+      <path d="M18 12V23A6 6 0 0 0 30 23M30 12V29"/>
+      <path d="M38 12V29M38 17.5A5.5 5.5 0 0 1 49 17.5V29M49 17.5A5.5 5.5 0 0 1 60 17.5V29"/>
+    </g>
+  </symbol>
+  <symbol id="i-download" viewBox="0 0 24 24">
+    <path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-github" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.56 9.56 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/>
+  </symbol>
+</svg>
+
+<a class="skip" href="#main">Aller au contenu</a>
+
+<header class="site-header" data-header>
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html" aria-label="LUM, accueil">
+      <svg class="brand-mark" aria-hidden="true"><use href="#lum-mark"/></svg>
+      <svg class="brand-word" aria-hidden="true"><use href="#lum-word"/></svg>
+    </a>
+    <nav class="nav" aria-label="Sections du site">
+      <a href="index.html#comment">Comment ça marche</a>
+      <a href="index.html#fonctionnalites">Fonctionnalités</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="developpeurs.html" aria-current="page">Développeurs</a>
+    </nav>
+    <a class="btn btn-sm btn-lumen header-cta" href="https://github.com/ilsnpn/LUM">
+      <svg aria-hidden="true"><use href="#i-github"/></svg>GitHub
+    </a>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="dev-hero" data-dark>
+  <div class="wrap dev-hero-inner">
+    <p class="eyebrow on-dark">Développeurs</p>
+    <h1>LUM est un logiciel libre.</h1>
+    <p class="hero-lede">Son code source est public, sous licence MIT&nbsp;: lisez-le, compilez-le, modifiez-le, redistribuez-le. Et si vous l’améliorez, proposez vos changements&nbsp;!</p>
+    <div class="hero-cta">
+      <a class="btn btn-lumen" href="https://github.com/ilsnpn/LUM"><svg aria-hidden="true"><use href="#i-github"/></svg>Voir le code sur GitHub</a>
+      <a class="btn btn-ghost" href="download/LUM.exe" download><svg aria-hidden="true"><use href="#i-download"/></svg>Télécharger LUM.exe</a>
+    </div>
+    <p class="dev-repo"><code>github.com/ilsnpn/LUM</code></p>
+  </div>
+</section>
+
+<section class="section dev-section" aria-labelledby="build-title">
+  <div class="wrap dev-grid">
+    <div class="section-head left">
+      <p class="eyebrow">Compiler</p>
+      <h2 id="build-title">Sans rien installer.</h2>
+      <p class="lede">LUM est écrit en C#&nbsp;5 pour .NET Framework&nbsp;4.8. Le compilateur est déjà fourni avec Windows&nbsp;: pas de Visual Studio, pas de SDK, pas de droits administrateur.</p>
+    </div>
+    <ol class="dev-steps">
+      <li>
+        <h3>Récupérez le code</h3>
+        <pre class="dev-code"><code>git clone https://github.com/ilsnpn/LUM.git</code></pre>
+        <p>Ou, sur GitHub, <b>Code › Download ZIP</b>.</p>
+      </li>
+      <li>
+        <h3>Double-cliquez sur <code>build.bat</code></h3>
+        <p>Il appelle le <code>csc.exe</code> présent dans Windows et produit <code>LUM.exe</code> à côté. C’est tout.</p>
+      </li>
+      <li>
+        <h3>Ou avec le SDK .NET</h3>
+        <pre class="dev-code"><code>dotnet build</code></pre>
+        <p>Projet <code>LUM.csproj</code>, cible <code>net48</code>. Le code reste en C#&nbsp;5 pour que <code>build.bat</code> continue de fonctionner.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section dev-section alt" aria-labelledby="inside-title">
+  <div class="wrap dev-grid">
+    <div class="section-head left">
+      <p class="eyebrow">Sous le capot</p>
+      <h2 id="inside-title">Zéro dépendance.</h2>
+      <p class="lede">Uniquement des API natives de Windows, appelées directement depuis C#. Aucun paquet NuGet, aucune bibliothèque tierce.</p>
+    </div>
+    <div>
+      <table class="dev-table">
+        <thead><tr><th scope="col">Fichier</th><th scope="col">Rôle</th></tr></thead>
+        <tbody>
+          <tr><td><code>src/Program.cs</code></td><td>Point d’entrée, une seule instance à la fois</td></tr>
+          <tr><td><code>src/BubbleForm.cs</code></td><td>Fenêtre ronde (layered), barre au survol, aimantation, rendu</td></tr>
+          <tr><td><code>src/CameraCapture.cs</code></td><td>Capture webcam via Media Foundation</td></tr>
+          <tr><td><code>src/ScreenRecorder.cs</code></td><td>Enregistrement de l’écran (capture GDI, encodeur MP4, micro waveIn)</td></tr>
+          <tr><td><code>src/MediaFoundation.cs</code></td><td>Interop Media Foundation (lecture caméra, écriture MP4)</td></tr>
+          <tr><td><code>src/Settings.cs</code></td><td>Réglages mémorisés dans <code>%APPDATA%\LUM\settings.ini</code></td></tr>
+          <tr><td><code>site/</code></td><td>Ce site (HTML, CSS, JavaScript, sans framework)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section dev-section" aria-labelledby="contrib-title">
+  <div class="wrap dev-grid">
+    <div class="section-head left">
+      <p class="eyebrow">Contribuer</p>
+      <h2 id="contrib-title">Un coup de main est bienvenu.</h2>
+      <p class="lede">Un bug&nbsp;? Ouvrez une <a href="https://github.com/ilsnpn/LUM/issues">issue</a>. Une amélioration&nbsp;? Proposez une <a href="https://github.com/ilsnpn/LUM/pulls">pull request</a>.</p>
+    </div>
+    <div>
+      <h3 class="dev-sub">Pistes pour la suite</h3>
+      <ul class="ticks">
+        <li><b>Raccourcis clavier globaux</b> pour démarrer, arrêter ou mettre en pause.</li>
+        <li><b>Le son de l’ordinateur</b>, en plus du micro.</li>
+        <li><b>Une zone de l’écran ou une fenêtre</b> au lieu de l’écran entier.</li>
+        <li><b>Un exe signé</b>, pour éviter les blocages SmartScreen et AppLocker.</li>
+      </ul>
+      <div class="dev-license">
+        <h3 class="dev-sub">Licence MIT</h3>
+        <p>Vous pouvez utiliser, copier, modifier, fusionner, publier et distribuer LUM, y compris dans un projet commercial, à condition de conserver la mention de copyright et le texte de la licence. LUM est fourni «&nbsp;tel quel&nbsp;», sans garantie. <a href="https://github.com/ilsnpn/LUM/blob/main/LICENSE">Lire la licence</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer" data-dark>
+  <div class="wrap footer-inner">
+    <a class="brand" href="index.html" aria-label="LUM, accueil">
+      <svg class="brand-mark" aria-hidden="true"><use href="#lum-mark"/></svg>
+      <svg class="brand-word" aria-hidden="true"><use href="#lum-word"/></svg>
+    </a>
+    <p class="footer-tag">LUM, comme <i>lumen</i>&nbsp;: la bulle caméra qui vous met en lumière.</p>
+    <nav class="footer-nav" aria-label="Pied de page">
+      <a href="index.html#comment">Comment ça marche</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="developpeurs.html">Développeurs</a>
+      <a href="https://github.com/ilsnpn/LUM">GitHub</a>
+    </nav>
+    <p class="footer-legal">Logiciel libre et gratuit, sous <a href="https://github.com/ilsnpn/LUM/blob/main/LICENSE">licence MIT</a>. Code source sur <a href="https://github.com/ilsnpn/LUM">GitHub</a>.</p>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

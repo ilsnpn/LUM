@@ -1,0 +1,12 @@
+# Sorties de compilation (dotnet build / Visual Studio)
+obj/
+bin/
+.vs/
+*.user
+
+# L'exe compilé à la racine : il est publié dans les Releases GitHub.
+# La copie site/download/LUM.exe, elle, est suivie (le site la propose en téléchargement).
+/LUM.exe
+
+# Vercel
+.vercel/

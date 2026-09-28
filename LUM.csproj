@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Pour VS Code / dotnet build. Cible .NET Framework 4.8 (présent sur tout Windows 10/11)
+       => l'exe tourne sans installation. LangVersion 5 pour rester compilable par build.bat. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>5</LangVersion>
+    <AssemblyName>LUM</AssemblyName>
+    <RootNamespace>Lum</RootNamespace>
+    <ApplicationIcon>src\LUM.ico</ApplicationIcon>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+</Project>
