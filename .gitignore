@@ -10,3 +10,6 @@ bin/
 
 # Vercel
 .vercel/
+
+.vercel
+.env*
